@@ -1,0 +1,55 @@
+ArrayList<PImage> loadImages = new ArrayList<PImage>();
+int maxLoadImgs = 10;
+
+PGraphics outputImage;
+int boxSize;
+
+void setup() {
+  for (int i = 0; i < maxLoadImgs; i++){
+    String text = "savedImage" + i + ".png";
+    loadImages.add( loadImage(text));
+  }
+  int imageWidth = 1600;
+  int imageHeight = 1600;
+  color black = color(0x00000000);
+  boxSize = 20;
+  size(1600,1600);
+  noStroke();
+  
+  outputImage = createGraphics(imageWidth, imageHeight);
+ 
+  PImage testInputImage = loadImages.get(0);
+
+  
+    for (int c = 0; c < maxLoadImgs; c++){
+
+      outputImage.beginDraw();
+      outputImage.clear();
+      outputImage.noStroke();
+      
+      testInputImage = loadImages.get(c);
+      
+      for (int i = 0; i < imageWidth; i+=20) {
+        for (int j = 0; j < imageHeight; j+=20) {
+          color thisPoint = testInputImage.get(i,j);
+          if ((blue(thisPoint) >= 245) && (green(thisPoint) >= 245) && (red(thisPoint)
+          >= 245)) {
+                //fill(black);
+                //outputImage.fill(clear);
+                //outputImage.noFill();
+          } else {
+            fill(testInputImage.get(i, j));
+            outputImage.fill(testInputImage.get(i, j));
+            println(red(thisPoint) + ", ", green(thisPoint)+ ", ",blue(thisPoint));
+            rect(i,j, 20, 20);
+            outputImage.rect(i,j, 20, 20);
+          }
+    
+          
+        }
+      }
+    println("done" + c);
+    outputImage.endDraw();
+    outputImage.save("outputImage" + c + ".png");
+  }
+}
